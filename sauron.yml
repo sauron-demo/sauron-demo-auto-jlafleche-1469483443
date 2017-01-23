@@ -27,7 +27,6 @@ state_machine:
       kwargs:
         stage: dev
         tenant_id: 26cfa16c-e20f-425b-a99c-ad5d46114575
-        workflow: []
     status_checks:
       - duplo-kat-kit: {}
     on_failure:
