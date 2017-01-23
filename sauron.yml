@@ -25,8 +25,8 @@ state_machine:
     deploy_activity:
       name: duplo-kat-kit
       kwargs:
-        stage: prod
-        tenant_id: asdf
+        stage: dev
+        tenant_id: 26cfa16c-e20f-425b-a99c-ad5d46114575
         workflow: []
     status_checks:
       - duplo-kat-kit: {}
