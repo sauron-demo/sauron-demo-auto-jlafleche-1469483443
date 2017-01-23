@@ -1,0 +1,43 @@
+end_state: EndState
+state_machine:
+  EndState:
+    status_checks: []
+    on_success:
+      transition_state: EndState
+    on_failure:
+      transition_state: EndState
+  CodeReviewState:
+    status_checks:
+      - LGTM:
+          sticky: true
+          keywords:
+            - ':+1:'
+            - Fuck
+      - merge-label:
+          label_name: bug
+    on_failure:
+      transition_state: CodeReviewState
+    on_success:
+      transition_state: QueuedState
+  QueuedState:
+    status_checks:
+      - merged: {}
+    on_failure:
+      transition_state: CodeReviewState
+    on_success:
+      transition_state: DeployState
+  DeployState:
+    deploy_activity:
+      name: duplo-kat-kit
+      kwargs:
+        stage: prod
+        tenant_id: asdf
+        workflow: []
+    status_checks:
+      - duplo-kat-kit: {}
+    on_failure:
+      transition_state: null
+    on_success:
+      transition_state: EndState
+initial_state: CodeReviewState
+merged_state: DeployState
