@@ -8,11 +8,6 @@ state_machine:
       transition_state: EndState
   CodeReviewState:
     status_checks:
-      - LGTM:
-          sticky: true
-          keywords:
-            - ':+1:'
-            - Fuck
       - merge-label:
           label_name: bug
     on_failure:
