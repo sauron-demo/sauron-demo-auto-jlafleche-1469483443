@@ -1,0 +1,46 @@
+end_state: EndState
+state_machine:
+  EndState:
+    status_checks: []
+    on_success:
+      transition_state: EndState
+    on_failure:
+      transition_state: EndState
+  CodeReviewState:
+    status_checks:
+      - LGTM:
+          sticky: true
+          keywords:
+            - Great
+      - merge-label:
+          label_name: Ship It!
+      - duplo-kat-kit: {}
+    activity:
+      name: duplo-kat-kit
+      kwargs:
+        stage: dev
+        tenant_id: afdsaf
+    on_failure:
+      transition_state: CodeReviewState
+    on_success:
+      transition_state: QueuedCard
+  QueuedCard:
+    status_checks:
+      - merged: null
+    on_failure:
+      transition_state: CodeReviewState
+    on_success:
+      transition_state: DeployState_test
+  DeployState_test:
+    deploy_activity:
+      name: duplo-kat-kit
+      kwargs:
+        stage: prod
+        tenant_id: qwerty
+        workflow: []
+    status_checks: []
+    on_failure:
+      transition_state: CodeReviewState
+    on_success:
+      transition_state: EndState
+initial_state: CodeReviewState
