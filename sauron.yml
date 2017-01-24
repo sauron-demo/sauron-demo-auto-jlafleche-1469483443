@@ -10,10 +10,41 @@ state_machine:
     status_checks:
       - merge-label:
           label_name: bug
+      - duplo-kat-kit: {}
     on_failure:
       transition_state: CodeReviewState
     on_success:
       transition_state: QueuedState
+    activity:
+      name: duplo-kat-kit
+      kwargs:
+        workflow:
+          - Enabled: true
+            Name: Pre-deploy build
+            PhaseType: 4
+            Order: 1
+            BuildParams: PHASE="PRE_DEPLOY_BUILD"
+            ContainerImage: 'zenefits/zbuilder:v7'
+            Parallelism: '1'
+            TenantId: asdfhj
+          - Enabled: true
+            Name: Deploy
+            PhaseType: 1
+            Order: 2
+            BuildParams: PHASE="DEPLOY"
+            ContainerImage: 'zenefits/zbuilder:v7'
+            Parallelism: '1'
+            TenantId: asdfhj
+          - Enabled: true
+            Name: Post-deploy verification
+            PhaseType: 4
+            Order: 3
+            BuildParams: PHASE="POST_DEPLOY_VERIFICATION"
+            ContainerImage: 'zenefits/zbuilder:v7'
+            Parallelism: '1'
+            TenantId: asdfhj
+        tenant_id: asdfhj
+        stage: dev
   QueuedState:
     status_checks:
       - merged: {}
