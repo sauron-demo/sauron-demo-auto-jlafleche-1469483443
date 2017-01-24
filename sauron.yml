@@ -19,23 +19,23 @@ state_machine:
       name: duplo-kat-kit
       kwargs:
         workflow:
-          - Enabled: true
-            Name: Pre-deploy build
+          - Name: Pre-deploy build
             PhaseType: 4
             Order: 1
             BuildParams: PHASE="PRE_DEPLOY_BUILD"
             ContainerImage: 'zenefits/zbuilder:v7'
             Parallelism: '1'
             TenantId: asdfhj
-          - Enabled: true
-            Name: Deploy
+            Enabled: true
+          - Name: Deploy
             PhaseType: 1
             Order: 2
             BuildParams: 'PHASE="DEPLOY",FOO="BAR"'
             ContainerImage: 'zenefits/zbuilder:v7'
             Parallelism: '1'
             TenantId: asdfhj
-          - Enabled: false
+            Enabled: true
+          - Enabled: true
             Name: Post-deploy verification
             PhaseType: 4
             Order: 3
